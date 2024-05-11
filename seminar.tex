@@ -1,0 +1,243 @@
+\documentclass[i]{jsarticle}
+
+% 数式
+\usepackage{amsmath,amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bm}
+% 画像
+\usepackage[dvipdfmx]{graphicx}
+
+\renewcommand{\proofname}{\textbf{証明}}
+
+\begin{document}
+
+\title{佐藤研卒研ゼミ ホモロジー入門}
+\author{大村啓斗}
+\date{\today}
+\maketitle
+
+\section{弧状連結性とホモトピー}
+\subsection{空間の分類}
+
+\begin{description}
+\item[位相空間の分類] 2つの位相空間の間に同相写像が存在すれば同じ
+\item[多様体の分類] 2つの多様体の間に微分同相写像が存在すれば同じ
+\end{description}
+
+位相空間が同相である
+
+$\iff$ 連続写像 $f: X \to Y$ および連続写像 $g: Y \to X$ が存在し, ($g \circ f = id_{X}$ かつ $f \circ g = id_{Y}$)が成立する. \\
+
+位相空間が同相ではない
+
+$\iff$ 任意の連続写像 $f: X \to Y$ と任意の連続写像 $g: Y \to X$ に対し, ($g \circ f \neq id_{X}$ または $f \circ g \neq id_{Y}$)が成立する.
+
+しかしこれを文字通りに確かめることは普通はできない. \\
+
+次の5つの図形は同相ではない.
+
+\begin{itemize}\label{t1}
+	\item 整数全体に離散位相を入れた空間$\mathbb{Z}$
+	\item 実数直線$\mathbb{R}$ (ユークリッド位相を入れた空間)
+	\item 円周$S^{1}=\{\bm{x} \in \mathbb{R}^2 \mid \|\bm{x}\|=1\}$ (ユークリッド位相を入れた$\mathbb{R}^{2}$との相対位相を入れた空間)
+	\item カントール集合$C$ (後述)
+	\item 平面$\mathbb{R}^{2}$ (ユークリッド位相を入れた空間)
+\end{itemize}
+
+\subsubsection*{整数全体に離散位相を入れた空間$\mathbb{Z}$とは}
+
+整数全体の集合の任意の部分集合を開集合とすることによって定まる位相を入れた空間のこと.
+
+\subsubsection*{カントール集合$C$とは}
+
+離散位相を入れた集合$\{0, 1\}$の可算個の直積$\{0, 1\}^{\mathbb{N}}$に積位相を入れたもの.
+
+\begin{align*}
+\{0, 1\}^{\mathbb{N}} = (a_{1}, a_{2}, a_{3}, \cdots ),  \quad a_{i} \in \{0, 1\}, i \in \mathbb{N}
+\end{align*}
+
+これは以下の3進カントール集合と同相である.
+
+\begin{align*}
+\{\sum _{i=1}^{\infty} \frac{a_{i}}{3^{i}} \mid a_{i} \in \{0, 2\}\} \subset [0, 1]
+\end{align*}
+
+\begin{proof}
+最初に, 2つの集合の間に全単射が存在することを示す.
+まず, $x \in [0, 1]$の3進展開は一意的ではない. 実際
+\begin{align*}
+\frac{1}{3} = \frac{1}{3^{1}} + \frac{0}{3^{2}}  + \cdots
+\end{align*}
+より, $\frac{1}{3}=0.100\cdots_{(3)}$と書ける. 一方で,
+\begin{align*}
+\frac{1}{3} &= \frac{0}{3^{1}} + \frac{1}{3^{2}}\cdot3 \\
+		&= \frac{0}{3^{1}} + \frac{1}{3^{2}}(2 + 1) \\
+		&= \frac{0}{3^{1}} + \frac{2}{3^2} + \frac{1}{3^2}\cdot1 \\
+		&= \frac{0}{3^{1}} + \frac{2}{3^2} + \frac{1}{3^2}(\frac{1}{3}(2 + 1)) \\
+		&= \frac{0}{3^{1}} + \frac{2}{3^2} + \frac{2}{3^3} + \frac{1}{3^3}\cdot1 \\
+		&= \frac{0}{3^{1}} + \frac{2}{3^2} + \frac{2}{3^3} + \frac{1}{3^3}(\frac{1}{3}(2 + 1)) \\
+		&= \cdots \\
+		&= \frac{0}{3^{1}} + \frac{2}{3^2} + \frac{2}{3^3} + \frac{2}{3^4} + \cdots
+\end{align*}
+より, $\frac{1}{3}=0.022\cdots_{(3)}$とも書ける. よって,以下の条件を満たす数列(集合$\{0, 1, 2\}$の可算個の直積)が存在する.
+\begin{align*}
+x &\in [0, 1], \{a_n\}, \{b_n\} \in \{0, 1, 2\}^{\mathbb{N}} \\
+x &= 0.a_{1}a_{2}a_{3}\cdots_{(3)} \\
+x &= 0.b_{1}b_{2}b_{3}\cdots_{(3)} \\
+\end{align*}
+このとき, $a_{n} \neq b_{n}, n\in\mathbb{N}$となる最小の$n$に注目する.
+\begin{align*}
+m := min\{n \in \mathbb{N} \mid a_{n} \neq b_{n}\}
+\end{align*}
+とする. このとき, 条件から任意の$n\in\{1, 2, \cdots, m - 1\}$に対して$a_{n}=b_{n}$が成り立つ. また, $a_{m} \neq b_{m}$であるが, ここで$a_{m} > b_{m}$とする(そのように$\{a_n\}$と$\{b_n\}$をとる). このとき, $a_{m}, b_{m} \in \{0, 1, 2\}$, $a_{m} > b_{m}$より,
+\begin{align*}
+a_{m} - b_{m} \geq 1
+\end{align*}
+が成り立つ. また,
+\begin{align*}
+x &= \sum_{i=1}^{\infty} \frac{a_n}{3^n} \\
+   &= \sum_{i=m-1}^{\infty} \frac{a_n}{3^n} + \frac{a_m}{3^m} + \sum_{i=m+1}^{\infty} \frac{a_n}{3^n} \\
+   &\geq \sum_{i=m-1}^{\infty} \frac{a_n}{3^n} + \frac{a_m}{3^m}
+\end{align*}
+\begin{align*}
+x &= \sum_{i=1}^{\infty} \frac{b_n}{3^n} \\
+   &= \sum_{i=m-1}^{\infty} \frac{b_n}{3^n} + \frac{b_m}{3^m} + \sum_{i=m+1}^{\infty} \frac{b_n}{3^n} \\
+   &= \sum_{i=m-1}^{\infty} \frac{a_n}{3^n} + \frac{b_m}{3^m} + \sum_{i=m+1}^{\infty} \frac{b_n}{3^n} \\
+   &\leq \sum_{i=m-1}^{\infty} \frac{a_n}{3^n} + \frac{b_m}{3^m} + \sum_{i=m+1}^{\infty} \frac{2}{3^n} \\
+   &= \sum_{i=m-1}^{\infty} \frac{a_n}{3^n} + \frac{b_m}{3^m} + \frac{1}{3^m} \\
+   &= \sum_{i=m-1}^{\infty} \frac{a_n}{3^n} + \frac{b_m+1}{3^m} \\
+\end{align*}
+したがって,
+\begin{align*}
+\sum_{i=m-1}^{\infty} \frac{a_n}{3^n} + \frac{a_m}{3^m} \leq x \leq \sum_{i=m-1}^{\infty} \frac{a_n}{3^n} + \frac{b_m+1}{3^m}
+\end{align*}
+すなわち,
+\begin{align*}
+\frac{a_m}{3^m} \leq \frac{b_m+1}{3^m} \iff a_m \leq b_m+1
+\end{align*}
+このことと, $a_{m} - b_{m} \geq 1$より
+\begin{align*}
+b_m+1 \leq a_m \leq b_m+1 \iff a_m = b_m+1
+\end{align*}
+よって, $a_m, b_m \in \{0, 1, 2\}$より$a_m=1$または$a_m=1$のどちらか一方が成り立つ.\\
+以上のことから,
+\begin{align*}
+x,y &\in [0, 1], \{a_n\}, \{b_n\} \in \{0, 2\}^{\mathbb{N}} \\
+x &= 0.a_{1}a_{2}a_{3}\cdots_{(3)} \\
+y &= 0.b_{1}b_{2}b_{3}\cdots_{(3)} \\
+\end{align*}
+である場合, 必ず$x \neq y$である. つまり, $x \in [0, 1]$を0または2だけを用いて3進展開した場合の以下のような数列${a_n}$は一意的になる.
+\begin{align*}
+x &\in [0, 1],  \{a_n\} \in \{0, 2\}^{\mathbb{N}} \\
+x &= 0.a_{1}a_{2}a_{3}\cdots_{(3)}
+\end{align*}
+したがって, $\{0, 1\}^{\mathbb{N}}$のn番目の要素の0を$a_n \in \{0, 2\}$の0に, 1を$a_n \in \{0, 2\}$の2に対応させる写像を考えると全単射となる.
+
+離散位相を入れた集合$\{0,1\}$はハウスドルフ空間である. よって, 「ハウスドルフ空間の直積空間はハウスドルフ空間である」という命題を認めると, カントール集合$\{0, 1\}^{\mathbb{N}}$はハウスドルフ空間である.
+
+また, 3進カントール集合は有界閉集合なのでコンパクトである.
+
+以上より, 3進カントール集合がコンパクトかつカントール集合$\{0, 1\}^{\mathbb{N}}$がハウスドルフ空間で, 3進カントール集合からカントール集合への全単射写像が連続(証明は省略)であることから, 3進カントール集合とカントール集合は同相である.
+\end{proof}
+
+上に書いた5つの図形の性質を表にまとめると以下の様になる.
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{c|c|c|c|c}
+    & 濃度 & コンパクト & 連結 & 1点の補空間が連結  \\ \hline
+    $\mathbb{Z}$ & $\aleph_{0}$ & $\times$ & $\times$ & $\times$ \\ \hline
+    $\mathbb{R}$ & $\aleph_{1}$ & $\times$ & $\bigcirc$ & $\times$ \\ \hline
+    円周$S^{1}$ & $\aleph_{1}$  & $\bigcirc$ & $\bigcirc$ & $\bigcirc$ \\ \hline
+    カントール集合$C$ &
+    \begin{tabular}{c}
+    $\aleph_{1}$ \\
+    ($[0,1]$上の2進展開と \\
+    $[0,1]$上の3進展開の間に \\
+    単射が存在するため)
+    \end{tabular}
+    & $\bigcirc$ & $\times$ & $\times$ \\ \hline
+    $\mathbb{R}^{2}$ & $\aleph_{1}$  & $\times$ & $\bigcirc$ & $\bigcirc$ \\ \hline
+  \end{tabular}
+  \label{tb:fugafuga}
+\end{table}
+上の表のように性質が成立するかしないかは$\bigcirc$$\times$あるいは$\{0,1\}$に値を持つ量として表すことができる.このような同じと考えるものの上で同じ値を持つ量を不変量という.
+
+\subsection{写像のホモトピー}
+\subsubsection{連結性と弧状連結性}
+
+\begin{description}
+  \item[定義(連結)] 位相空間$X$が連結であるとは, 次のような空でない開集合$U, V$が存在しないことである.
+  \begin{align*}
+    U \cup V = X かつ U \cap V = \emptyset
+  \end{align*}
+\end{description}
+\begin{description}
+  \item[定義(弧状連結)] 位相空間$X$が弧状連結とは, $X$の任意の2点$x_{0}, x_{1}$に対し, 閉区間$[0,1]$から$X$への連続写像$\gamma:[0,1]\to X$で$\gamma(0)=x_{0}, \gamma(1)=x_{1}$を満たすものが存在することである.
+\end{description}
+\begin{description}
+  \item[命題] 位相空間Xが弧状連結ならば連結である.
+\end{description}
+\begin{proof}
+$X$が弧状連結であり, 連結でないと仮定すると, $U \cup V = X$かつ$U \cap V = \emptyset$となる空でない開集合$U, V$が存在する.
+$x_{0}\in U, x_{1}\in V$に対し, 弧状連結性から, 連続写像$\gamma:[0,1]\to X$で$\gamma(0)=x_{0}, \gamma(1)=x_{1}$を満たすものが存在する.
+このとき$U'=\gamma^{-1}(U), V'=\gamma^{-1}(V)$とおけば, $U', V'$は$\gamma$の連続性から$[0,1]$の開集合である.
+しかも$0\in X', 1\in V'$であるから$U', V'$は空ではなく, $U' \cup V'=[0,1]$かつ$U'\cap V'=\emptyset$である.
+これは[0,1]が連結であることに反するので矛盾である.よって, $X$は連結である.
+\end{proof}
+
+\subsubsection{ホモトピー}
+\begin{description}
+  \item[定義(ホモトピー)] 位相空間$X, Y$に対し, 連続写像$f_{0}, f_{1}:X \to Y$がホモトピックとは, 連続写像$F: [0,1]\times X\to Y$で$f_{0}(x)=F(0,x),f_{1}(x)=F(1,x)$を満たすものが存在することである.
+$f_{0}, f_{1}$がホモトピックであることを$f_{0}\simeq f_{1}$と表す.
+連続写像$F$あるいは$f_{t}(x)=F(t, x)$で定義される連続写像の族$\{f_{t}\}_{t\in [0,1]}$を$f_{0}$と$f_{1}$の間のホモトピーと呼ぶ.
+\end{description}
+\begin{description}
+  \item[例] 円周$S^{1}=\{z\in \mathbb{C} \mid z\overline{z}=1 \}$から複素平面$\mathbb{C}$への写像を
+\begin{align*}
+  f_{t}(z)=F(t, z)=(1-t)z+tz^2
+\end{align*}
+で定義すると, $F$は$f_{0}(z)=z$と$f_{1}(z)=z^2$で定まる写像$f_{0}, f_{1}:S^{1}\to \mathbb{C}$の間のホモトピーである.
+\end{description}
+\begin{description}
+  \item[定義(ホモトピー類)] 位相空間$X, Y$に対し, $Map(X,Y)$を$X$から$Y$への連続写像全体の集合とする.
+集合$Map(X, Y)$においてホモトピックであること($\simeq$)は同値関係となる(後述). この同値関係による同値類をホモトピー類と呼び, $[f]$で表す.
+ホモトピー類の集合$Map(X, Y)/\simeq$を$[X, Y]$と書き, ホモトピー集合と呼ぶ.
+\end{description}
+\begin{description}
+  \item[定義(ホモトピー集合)] 同値関係$\simeq$による商集合$Map(X, Y)/\simeq$を$[X, Y]$と書き, ホモトピー集合と呼ぶ.
+\end{description}
+\begin{description}
+  \item[補題] $X,Y$を位相空間とする. $X$が有限個の閉集合$X_{1},X_{2},\cdots, X_{k}$で覆われている($X=\bigcup_{i=1}^{k}$とし, $X_{i}$にはXの相対位相が入れられているとする.
+このとき, 写像$f: X\to Y$が連続であることと, 任意の$i\in \{1,2, \cdots, k\}$に対し, $f\mid X_{i}:X_{i}\to Y$が連続であることは同値である.
+\end{description}
+\begin{proof}{$Map(X, Y)$上で$\simeq$は同値関係となることの証明}
+
+(反射律) $f:X\to Y$に対し$F(t,x)=f(x)$とおけば, $F$は連続であり$f(x)=F(0,x), f(x)=F(1,x)$であるので$f\simeq f$が成り立つ.
+
+(対象律) $f_{0}\simeq f_{1}$とする.
+$f_{0}\simeq f_{1}$を与えるホモトピー$F: [0,1]\times X\to Y$に対し,
+$F': [0,1]\times X\to Y$を$F'(t,x)=F(1-t,x)$で定義すると, $F'$は連続であり,
+\begin{align*}
+  f'_{0}(x)&=F'(0, x)=F(1,x)=f_{1} \\
+  f'_{1}(x)&=F'(1, x)=F(0,x)=f_{0}
+\end{align*}
+であるので$f'_{0}\simeq f'_{1} \iff f_{1}\simeq f_{0}$が成り立つ.
+
+(推移律) $f_{0}\simeq f_{1}, f_{1}\simeq f_{2}$とする.$f_{0}\simeq f_{1}, f_{1}\simeq f_{2}$を与えるホモトピー$F_{1}: [0,1]\times X\to Y, F_{2}: [0,1]\times X\to Y$に対し,
+$F_{1}: [0,1]\times X\to Y$を
+\begin{align*}
+  F(t, x) =
+  \begin{cases}
+  F_{1}(2t, x) & (t \in [0, \frac{1}{2}])\\
+  F_{2}(2t-1,x) & (x \in [\frac{1}{2}, 1])
+  \end{cases}
+\end{align*}
+により定義すると, 補題により$F$は連続であり,
+\begin{align*}
+f'_{0}(x)=F(0, x)=F_{1}(0, x)=f_{0}(x) \\
+f'_{1}(x)=F(1, x)=F_{2}(1, x)=f_{2}(x)
+\end{align*}
+であるので$f'_{0}\simeq f'_{1} \iff f_{0}\simeq f_{2}$が成り立つ.
+\end{proof}
+\end{document}
